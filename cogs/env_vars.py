@@ -16,3 +16,5 @@ API_KEY = os.getenv("API_KEY")
 GUILD_ID = os.getenv("GUILD_ID")
 
 VERSE_URL = os.getenv("VERSE_URL")
+
+SPECIFIC_URL = os.getenv("SPECIFIC_URL")
