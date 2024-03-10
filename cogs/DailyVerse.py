@@ -1,6 +1,6 @@
 import requests
 import json
-from env_vars import VERSE_URL
+from .env_vars import VERSE_URL
 
 
 def DailyVerse():
