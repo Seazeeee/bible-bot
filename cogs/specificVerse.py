@@ -1,7 +1,5 @@
-`import requests
+import requests
 import json
-from typing import Optional
-from .env_vars import SPECIFIC_URL
 
 class specificVerse():
 
@@ -46,7 +44,7 @@ class specificVerse():
 
         # https://bolls.life/get-verse/<slug:translation>/<int:book>/<int:chapter>/<int:verse>/
 
-        url = SPECIFIC_URL+ str(self.translation) + "/" + str(bookId) + "/" + str(self.chapter) + "/" + str(self.verse) + "/"
+        url = "https://bolls.life/get-verse/"+ str(self.translation) + "/" + str(bookId) + "/" + str(self.chapter) + "/" + str(self.verse) + "/"
 
         req = requests.get(url).text
 
@@ -58,7 +56,8 @@ class specificVerse():
 
         bookText = reqDic["text"]
 
-        return f'{self.book} {self.chapter}:{self.verse} \n\n{bookText}'
+        return f'{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n{url}'
+
 
     
 

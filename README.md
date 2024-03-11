@@ -1,9 +1,70 @@
-# bible-bot
+# #Bible-bot
 
-A simple bot that pulls a random bible verse and displays it as a chat message.
+A discord bot that allows for a daily verse to be sent. Currently, the verse is setup to be sent at 8:30AM EST. This will later be changed to a command that will
+allow you to schedule the time. I have implemented a /verse and /random. /verse lets you specify the book, chapter, and verse that would like to see. Optional you can
+provide a translation that is checked and used. /random send and completely random verse from the bible. This is a passion project that I will develop overtime.
 
-# TO-DO
+## Getting Started
 
-- Add "/" commands to a tree
-- Add different versus ( motivational, joyful, etc.)
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 
+### Prerequisites
+
+What things you need to install the software and how to install them
+
+```
+python: https://www.python.org/downloads/
+
+Discord-app API Key: Private https://discord.com/developers/docs/intro
+
+pytz
+
+dotenv
+
+```
+
+### Installing
+
+A step by step series of examples that tell you how to get a development env running
+
+Say what the step will be
+
+```
+Standard .exe installation
+
+```
+
+And repeat
+
+```
+Following given prompts at https://discord.com/developers/docs/intro to create a discord application
+```
+
+```
+pip install python-dotenv
+```
+
+```
+pip install pytz
+```
+
+
+You would then invite the bot to your server and you would have access to the given commands.
+
+## Deployment
+
+TBD.
+
+## Built With
+
+* [Discord.py](https://discordpy.readthedocs.io/en/stable/) - The bot framework
+
+## Authors
+
+* **Matthew Thompson** - *Initial work* - [Seazeeee](https://github.com/Seazeeee)
+
+See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details

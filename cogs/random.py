@@ -1,9 +1,9 @@
 import requests
 import json
-from .env_vars import VERSE_URL
 
 
-def DailyVerse():
+def randomVerse():
+    
 
     # A dictionary that holds all the books
 
@@ -27,7 +27,7 @@ def DailyVerse():
 
     # URL that generates a random bible verse
 
-    url = VERSE_URL
+    url = "https://bolls.life/get-random-verse/ESV/"
 
     # Pull Request
 
@@ -51,4 +51,4 @@ def DailyVerse():
     
     # Return string
 
-    return f'{bookName} {bookChap}:{bookVerse} \n\n{bookText}' 
+    return f'{bookName} {bookChap}:{bookVerse} \n\n{bookText} \n{url}' 
