@@ -25,16 +25,11 @@ dotenv
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
 
 ```
-Standard .exe installation
-
+Python: Standard .exe installation
 ```
 
-And repeat
 
 ```
 Following given prompts at https://discord.com/developers/docs/intro to create a discord application
@@ -67,4 +62,4 @@ See also the list of [contributors](https://github.com/your/project/contributors
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](../LICENSE.md) file for details
