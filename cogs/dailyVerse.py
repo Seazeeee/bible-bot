@@ -1,4 +1,5 @@
 
+import random
 import discord
 import pytz
 import datetime
@@ -22,8 +23,10 @@ class dailyScripture(commands.Cog):
     def cog_unload(self):
         self.my_task.cancel()
 
+
     def dailyVerse():
         
+
         # Pull in our dailyVerse selected at random
         verse = randomVerse()
 
@@ -37,34 +40,53 @@ class dailyScripture(commands.Cog):
         chapter_verse_split = chapterVerse.split(":")
 
         # Grab the first 3 letters. EXCEPTIONS: John = JHN
-        grabChapterName = chapterVerse[0]
+        grabChapterName = splitVerse[0]
+
 
         exceptionList = {"John": "JHN"}
 
         if grabChapterName[len(grabChapterName)-1].strip() in exceptionList:
-            grabChapterName = exceptionList.get(grabChapterName[len(grabChapterName)-1].strip())
+            grabChapterName = exceptionList.get(grabChapterName[len(grabChapterName)].strip())
 
         # https://bible.com/bible/59/{3 letter book name}.{chapter}.{verse}.ESV
         # Format the url to use when returning the verse
 
-        verseURL = "https://bible.com/bible/59/" + grabChapterName + "." + chapter_verse_split[0] + "." + chapter_verse_split[1] + "." + "ESV/"
+        verseURL = "https://bible.com/bible/59/" + grabChapterName[:3] + "." + chapter_verse_split[0] + "." + chapter_verse_split[1] + "." + "ESV/"
+        
 
-        return f'{verse}\n{verseURL}'
+        return  verse, verseURL
 
     # Loop to send on each day at the given time
     @tasks.loop(time=time)
     async def my_task(self):
             await self.bot.wait_until_ready()
 
-            embed = discord.Embed(
-                title="Daily Verse",
-                description= dailyScripture.dailyVerse(),
-                color = discord.Color.blue()
-            )
+            verse_text, verse_link = dailyScripture.dailyVerse()
 
-            remind_channel = self.bot.get_channel(624323748987928577)   
+            while True:
 
-            await remind_channel.send(embed=embed)
+                try:
+                    
+
+                    embed = discord.Embed(
+                        color = discord.Color.blue(),
+                        title="Daily Verse",
+                        description= verse_text,
+                        type="rich",
+                        url=verse_link,
+                    )
+                    
+                    embed.set_footer(text="*Watching Oppenheimer*")
+
+                    remind_channel = self.bot.get_channel(1215738402260127784)   
+
+                    await remind_channel.send(embed=embed)
+
+                except IndexError:
+                    
+                    continue
+
+                break
 
 async def setup(bot):
     await bot.add_cog(dailyScripture(bot))
