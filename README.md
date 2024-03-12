@@ -1,8 +1,8 @@
 # #Bible-bot
 
-A discord bot that allows for a daily verse to be sent. Currently, the verse is setup to be sent at 8:30AM EST. This will later be changed to a command that will
+A discord bot that allows for a daily verse to be sent. Currently, the verse is set to be sent at 8:30 AM EST. This will later be changed to a command that will
 allow you to schedule the time. I have implemented a /verse and /random. /verse lets you specify the book, chapter, and verse that would like to see. Optional you can
-provide a translation that is checked and used. /random send and completely random verse from the bible. This is a passion project that I will develop overtime.
+provide a translation that is checked and used. /random send and completely random verse from the bible. This is a passion project that I will develop over time.
 
 ## Getting Started
 
@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+What things do you need to install the software and how to install them
 
 ```
 python: https://www.python.org/downloads/
@@ -58,8 +58,6 @@ TBD.
 
 * **Matthew Thompson** - *Initial work* - [Seazeeee](https://github.com/Seazeeee)
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
-
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](../LICENSE.md) file for details
+This project is licensed under the MIT License - see LICENSE.md for details
