@@ -1,5 +1,4 @@
 
-import random
 import discord
 import pytz
 import datetime

@@ -1,5 +1,6 @@
 import requests
 import json
+import difflib
 
 class specificVerse():
 
@@ -22,6 +23,10 @@ class specificVerse():
     
     def pullVerse(self):
 
+
+        # Has to have a capital name "Genesis"
+        # Has to match spaces
+
         library = {
         1: "Genesis", 2: "Exodus", 3: "Leviticus", 4: "Numbers", 5: "Deuteronomy",
         6: "Joshua", 7: "Judges", 8: "Ruth", 9: "1 Samuel", 10: "2 Samuel",
@@ -40,11 +45,24 @@ class specificVerse():
         66: "Revelation"
         }
 
-        bookId = next(key for key, value in library.items() if value == self.book)
-
+        for key, value in library.items():
+            if value == self.book:
+                exact_match = key
+                break
+            else:
+                close_matches = difflib.get_close_matches(self.book, library.values(), n=1)
+                if close_matches:
+                    close_match_title = close_matches[0]
+                    for key, value in library.items():
+                        if value == close_match_title:
+                            exact_match = key
+                            break
+        
+        bookId = exact_match
         # https://bolls.life/get-verse/<slug:translation>/<int:book>/<int:chapter>/<int:verse>/
 
         url = "https://bolls.life/get-verse/"+ str(self.translation) + "/" + str(bookId) + "/" + str(self.chapter) + "/" + str(self.verse) + "/"
+        verse_url = "https://bolls.life/"+ str(self.translation) + "/" + str(bookId) + "/" + str(self.chapter) + "/" + str(self.verse) + "/"
 
         req = requests.get(url).text
 
@@ -56,7 +74,7 @@ class specificVerse():
 
         bookText = reqDic["text"]
 
-        return f'{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n{url}'
+        return f'{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n {verse_url}'
 
 
     
