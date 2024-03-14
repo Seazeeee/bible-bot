@@ -1,7 +1,11 @@
 
+from email.mime import image
 import discord
 import pytz
 import datetime
+import requests
+import json
+from bs4 import BeautifulSoup
 from discord.ext import commands, tasks
 from .random import randomVerse
 
@@ -18,6 +22,10 @@ class dailyScripture(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.my_task.start()
+    
+    @commands.Cog.listener()
+    async def on_ready(self):
+        print("DailyVerse Cog Loaded")
 
     def cog_unload(self):
         self.my_task.cancel()
@@ -40,9 +48,8 @@ class dailyScripture(commands.Cog):
 
         # Grab the first 3 letters. EXCEPTIONS: John = JHN
         grabChapterName = splitVerse[0]
-
-
         exceptionList = {"John": "JHN"}
+        
 
         if grabChapterName[len(grabChapterName)-1].strip() in exceptionList:
             grabChapterName = exceptionList.get(grabChapterName[len(grabChapterName)].strip())
@@ -51,9 +58,8 @@ class dailyScripture(commands.Cog):
         # Format the url to use when returning the verse
 
         verseURL = "https://bible.com/bible/59/" + grabChapterName[:3] + "." + chapter_verse_split[0] + "." + chapter_verse_split[1] + "." + "ESV/"
-        
 
-        return  verse, verseURL
+        return verse, verseURL
 
     # Loop to send on each day at the given time
     @tasks.loop(time=time)
@@ -75,9 +81,10 @@ class dailyScripture(commands.Cog):
                         url=verse_link,
                     )
                     
+
                     embed.set_footer(text="*Watching Oppenheimer*")
 
-                    remind_channel = self.bot.get_channel(1215738402260127784)   
+                    remind_channel = self.bot.get_channel(624323748987928577)   
 
                     await remind_channel.send(embed=embed)
 
