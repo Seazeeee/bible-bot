@@ -73,10 +73,10 @@ class specificChapter():
         count = 0
 
         for entry in data:
-            texts += entry['text']
+            texts += entry['text'].strip() + " "
             count += len(entry['text'])
             if count >= 1800: # Limit of 1800 characters seems to work well with discords limit of 2000
-                texts += "..."
+                texts = texts[:-1] + "..."
                 break
 
 
