@@ -1,7 +1,4 @@
 # imports
-
-from imaplib import Commands
-import os
 import discord
 from discord.ext import commands
 from cogs.random import randomVerse
@@ -99,7 +96,7 @@ def Main():
     async def on_command_error(ctx, error):
         if isinstance(error, commands.CommandNotFound):
             return
-        raise await ctx.send(  # <- Error Area.
+        raise await bot.interaction.response.send_message(
             f"only you, {bot.interaction.user}, can see this! Something went wrong with your command, please try again and verify the information",
             ephemeral=True,
         )
