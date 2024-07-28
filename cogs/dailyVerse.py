@@ -82,7 +82,7 @@ class dailyScripture(commands.Cog):
                     )
                     
 
-                    embed.set_footer(text="*Watching Oppenheimer*")
+                    embed.set_footer(text="*Amen.*")
 
                     remind_channel = self.bot.get_channel(624323748987928577)   
 

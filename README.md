@@ -17,6 +17,8 @@ python: https://www.python.org/downloads/
 
 Discord-app API Key: Private https://discord.com/developers/docs/intro
 
+discord.py
+
 pytz
 
 dotenv
@@ -25,39 +27,92 @@ dotenv
 
 ### Installing
 
-
 ```
 Python: Standard .exe installation
 ```
-
 
 ```
 Following given prompts at https://discord.com/developers/docs/intro to create a discord application
 ```
 
-```
-pip install python-dotenv
-```
-
-```
-pip install pytz
+```python
+pip3 install discord.py
 ```
 
+```python
+pip3 install python-dotenv
+```
+
+```python
+pip3 install pytz
+```
 
 You would then invite the bot to your server and you would have access to the given commands.
 
 ## Deployment
 
-TBD.
+Currently, the bot is deployed on my local network via a Raspberry PI to run 24/7.
+
+I have had great success with this and you can easily move the working directory onto the
+pi and start it up by following the above prompts.
+
+However, if the internet drops or cuts out the bot will not start automatically.
+
+You can configure the bot to run on Pi startup. Something simple like this would
+suffice.
+
+First, create a bot.sh (script) that runs the bot
+
+```bash
+cd /path/to/bot
+
+nohup .venv/bin/python3 bot.py
+```
+
+Second, make the file executable
+
+```bash
+chmod +x bot.sh
+```
+
+Lastly, configure a way to run bot.sh on startup. I chose to use Cron
+
+```bash
+sudo crontab -e
+```
+
+```bash
+@reboot /path/to/bot.sh
+```
+
+Save and you should be all set! This doesn't fix the necessary issue that is prompted
+when the internet drops. I have found that you can easily SSH back into the Pi and run
+the bot.sh script
+
+```bash
+bash path/to/bot.sh
+```
 
 ## Built With
 
-* [Discord.py](https://discordpy.readthedocs.io/en/stable/) - The bot framework
+- [Discord.py](https://discordpy.readthedocs.io/en/stable/) - The bot framework
 
 ## Authors
 
-* **Matthew Thompson** - *Initial work* - [Seazeeee](https://github.com/Seazeeee)
+- **Matthew Thompson** - _Initial work_ - [Seazeeee](https://github.com/Seazeeee)
 
 ## License
 
 This project is licensed under the MIT License - see LICENSE.md for details
+
+```
+
+```
+
+```
+
+```
+
+```
+
+```
