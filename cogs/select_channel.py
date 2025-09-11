@@ -39,7 +39,13 @@ class select_channel(commands.Cog):
     )
     @app_commands.autocomplete(channel=autofill_channel_choices)
     async def select_channel(self, interaction: discord.Interaction, channel: str):
-        await interaction.response.send_message(f"You selected <#{channel}>")
+        if not await self.bot.is_owner(interaction.user):
+            await interaction.response.send_message(
+                "You are not the owner of this bot.", ephemeral=True
+            )
+            return
+        else:
+            await interaction.response.send_message(f"You selected <#{channel}>")
 
 
 # Setup function for loading the cog

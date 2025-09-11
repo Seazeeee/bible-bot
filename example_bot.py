@@ -10,10 +10,8 @@ from typing import Optional
 
 def Main():
 
-    # Sets the bots commands to look at "."
-
     bot = commands.Bot(
-        command_prefix=".",
+        command_prefix="!",  # <- Changed to ! because it just makes more sense
         intents=discord.Intents.all(),
         activity=discord.Activity(
             type=discord.ActivityType.competing, name="togetherness"
