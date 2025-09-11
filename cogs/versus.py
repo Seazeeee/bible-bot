@@ -1,4 +1,5 @@
 import json
+import difflib
 import requests
 
 
@@ -165,6 +166,10 @@ class versus():
 
             count += 1
         
+        # Len Check to make sure the block isn't larger than discord allows.
+        if len(verse_block >=1800):
+            verse_block = verse_block[:-1] + "..."
+
         return f"{self.book} {self.chapter}:{self.verse_start}-{self.verse_end} \n\n{verse_block}"
 
 
