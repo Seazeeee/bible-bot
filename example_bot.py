@@ -89,7 +89,9 @@ def Main():
         end_verse: int,
         translation: Optional[str],
     ):
-        await interaction.response.send_message(
+        # We defer because calling a lot of versus can be > than 3s
+        await interaction.response.defer()
+        await interaction.followup.send(
             ":pray: " + versus(book, chapter, start_verse, end_verse, translation).pullVerses()
         )
 

@@ -140,7 +140,7 @@ class versus():
         count = self.verse_start
 
         while count <=self.verse_end:
-
+            
             verse_url = (
                 "https://bolls.life/get-verse/"
                 + str(self.translation).upper()
@@ -160,16 +160,18 @@ class versus():
                 print(f"Failed to load data: {e}")
                 return 
 
-            bookText = reqDic["text"]
-            
-            verse_block += bookText + "\n"
+            bookText = reqDic["text"].strip()
+            # Len Check to make sure the block isn't larger than discord allows.
+            if len(verse_block) + len(bookText) >=1800:
+                verse_block += "... (truncated)"
+                break 
+            else:
+                verse_block += bookText + "\n"
 
             count += 1
-        
-        # Len Check to make sure the block isn't larger than discord allows.
-        if len(verse_block >=1800):
-            verse_block = verse_block[:-1] + "..."
-
+            
+ 
+       
         return f"{self.book} {self.chapter}:{self.verse_start}-{self.verse_end} \n\n{verse_block}"
 
 
