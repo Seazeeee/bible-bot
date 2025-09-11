@@ -1,6 +1,8 @@
 import json
 import difflib
 import requests
+import bleach
+import re
 
 
 class versus():
@@ -161,12 +163,14 @@ class versus():
                 return 
 
             bookText = reqDic["text"].strip()
+            text_no_s = re.sub(r"<S>.*?</S>", "", bookText, flags=re.DOTALL | re.IGNORECASE)
+            cleaned_text = bleach.clean(text_no_s, tags=[], strip=True)
             # Len Check to make sure the block isn't larger than discord allows.
             if len(verse_block) + len(bookText) >=1800:
                 verse_block += "... (truncated)"
                 break 
             else:
-                verse_block += bookText + "\n"
+                verse_block += cleaned_text + "\n"
 
             count += 1
             

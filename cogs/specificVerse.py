@@ -1,8 +1,8 @@
 import requests
 import json
 import difflib
-from bs4 import BeautifulSoup
-
+import bleach
+import re
 
 class specificVerse:
 
@@ -163,5 +163,7 @@ class specificVerse:
         # turn text into dictionary
         reqDic = json.loads(req)
         bookText = reqDic["text"]
+        text_no_s = re.sub(r"<S>.*?</S>", "", bookText, flags=re.DOTALL | re.IGNORECASE)
+        cleaned_text = bleach.clean(text_no_s, tags=[], strip=True)
 
-        return f"{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n {message_url}"
+        return f"{self.book} {self.chapter}:{self.verse} \n\n{cleaned_text} \n {message_url}"
