@@ -28,6 +28,7 @@ def Main():
             await bot.load_extension(f'cogs.{filename[:-3]}')"""
         await bot.load_extension("cogs.dailyVerse")
         await bot.load_extension("cogs.prayer")
+        await bot.load_extension("cogs.select_channel")
 
     # logs when the bot is ready
 
