@@ -4,13 +4,15 @@ from discord import app_commands
 from discord.ext import commands
 
 
-class Select_Channel(commands.Cog):
+class select_channel(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    def json_reader(self, path: str): ...
+    def json_reader(self, path: str):
+        pass
 
-    def json_writer(self, path: str): ...
+    def json_writer(self, path: str):
+        pass
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -33,13 +35,13 @@ class Select_Channel(commands.Cog):
 
     # Slash command
     @app_commands.command(
-        name="select_channel", description="A list of channels to select from."
+        name="select_channel", description="Set the Channel for the Daily Verse."
     )
-    @app_commands.describe(channel="Channel to select.")
+    @app_commands.autocomplete(channel=autofill_channel_choices)
     async def select_channel(self, interaction: discord.Interaction, channel: str):
         await interaction.response.send_message(f"You selected <#{channel}>")
 
 
 # Setup function for loading the cog
 async def setup(bot):
-    await bot.add_cog(Select_Channel(bot))
+    await bot.add_cog(select_channel(bot))
