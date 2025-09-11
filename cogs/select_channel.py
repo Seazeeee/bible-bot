@@ -2,6 +2,7 @@ import json
 import discord
 import os
 from .env_vars import JSON_PATH
+from utils.utils import json_writer
 from discord import app_commands
 from discord.ext import commands
 
@@ -9,38 +10,6 @@ from discord.ext import commands
 class select_channel(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
-
-    def json_writer(self, path: str, data: dict):
-        # Validate input
-        if "guild_id" not in data or "channel_id" not in data or "name" not in data:
-            print("[json_writer] Invalid data format passed. Skipping write.")
-            return
-
-        read_data = self.json_reader(path)
-
-        guild_id = str(data["guild_id"])
-
-        # Update or insert the new data for this guild
-        read_data[guild_id] = {
-            "name": data["name"],
-            "channel_id": data["channel_id"]
-        }
-
-        with open(path, "w", encoding="utf-8") as json_file:
-            json.dump(read_data, json_file, indent=4)
-
-    def json_reader(self, path: str):
-        # Check file
-        if not os.path.exists(path):
-            self.write_json_barebone(path)
-
-        with open(path, "r", encoding="utf-8") as json_file:
-            return json.load(json_file)
-
-    def write_json_barebone(self, path: str):
-        with open(path, "w", encoding="utf-8") as json_file:
-            json.dump({}, json_file, indent=4)
-
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -86,7 +55,7 @@ class select_channel(commands.Cog):
             }
 
             # Call json_writer
-            self.json_writer(JSON_PATH, data)
+            json_writer(path=JSON_PATH, data=data)
             await interaction.response.send_message(f"You selected <#{channel}>")
 
 
