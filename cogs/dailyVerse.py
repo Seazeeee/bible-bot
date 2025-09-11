@@ -3,6 +3,8 @@ import pytz
 import datetime
 import requests
 import json
+from utils.utils import json_reader
+from .env_vars import JSON_PATH
 from bs4 import BeautifulSoup
 from discord.ext import commands, tasks
 from .random import randomVerse
@@ -73,32 +75,43 @@ class dailyScripture(commands.Cog):
     async def my_task(self):
         await self.bot.wait_until_ready()
 
+        # Get the verse content
         verse_text, verse_link = dailyScripture.dailyVerse()
 
-        while True:
+        try:
+            # Build the embed
+            embed = discord.Embed(
+                color=discord.Color.blue(),
+                title="Daily Verse",
+                description=verse_text,
+                type="rich",
+                url=verse_link,
+            )
+            embed.set_footer(text="*Amen.*")
 
-            try:
+            # Read config data from JSON
+            data = json_reader(JSON_PATH)
 
-                embed = discord.Embed(
-                    color=discord.Color.blue(),
-                    title="Daily Verse",
-                    description=verse_text,
-                    type="rich",
-                    url=verse_link,
-                )
+            for guild_id, info in data.items():
+                channel_id = info.get("channel_id")
 
-                embed.set_footer(text="*Amen.*")
+                if not channel_id:
+                    continue
 
-                remind_channel = self.bot.get_channel(624323748987928577)
+                channel = self.bot.get_channel(int(channel_id))
 
-                await remind_channel.send(embed=embed)
+                if channel:
+                    try:
+                        await channel.send(embed=embed)
+                    except discord.Forbidden:
+                        print(f"[DailyVerse] Missing permissions in channel {channel_id}.")
+                    except discord.HTTPException as e:
+                        print(f"[DailyVerse] Failed to send to channel {channel_id}: {e}")
+                else:
+                    print(f"[DailyVerse] Channel ID {channel_id} not found in cache.")
 
-            except IndexError:
-
-                continue
-
-            break
-
+        except IndexError:
+            print("[DailyVerse] No verse found today.")
 
 async def setup(bot):
     await bot.add_cog(dailyScripture(bot))
