@@ -1,5 +1,7 @@
 import json
 import discord
+import os
+from .env_vars import JSON_PATH
 from discord import app_commands
 from discord.ext import commands
 
@@ -8,11 +10,37 @@ class select_channel(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    def json_reader(self, path: str):
-        pass
+    def json_writer(self, path: str, data: dict):
+        # Validate input
+        if "guild_id" not in data or "channel_id" not in data or "name" not in data:
+            print("[json_writer] Invalid data format passed. Skipping write.")
+            return
 
-    def json_writer(self, path: str):
-        pass
+        read_data = self.json_reader(path)
+
+        guild_id = str(data["guild_id"])
+
+        # Update or insert the new data for this guild
+        read_data[guild_id] = {
+            "name": data["name"],
+            "channel_id": data["channel_id"]
+        }
+
+        with open(path, "w", encoding="utf-8") as json_file:
+            json.dump(read_data, json_file, indent=4)
+
+    def json_reader(self, path: str):
+        # Check file
+        if not os.path.exists(path):
+            self.write_json_barebone(path)
+
+        with open(path, "r", encoding="utf-8") as json_file:
+            return json.load(json_file)
+
+    def write_json_barebone(self, path: str):
+        with open(path, "w", encoding="utf-8") as json_file:
+            json.dump({}, json_file, indent=4)
+
 
     @commands.Cog.listener()
     async def on_ready(self):
@@ -31,7 +59,7 @@ class select_channel(commands.Cog):
             if current.lower() in channel.name.lower()
         ][
             :25
-        ]  # Limit to 25 suggestions
+        ]
 
     # Slash command
     @app_commands.command(
@@ -45,6 +73,20 @@ class select_channel(commands.Cog):
             )
             return
         else:
+
+            # Grab IDs for JSON
+            g_id = interaction.guild.id
+            channel_id = int(channel)
+
+            # Create JSON Formated Data var.
+            data = {
+                    "guild_id": g_id,
+                    "name": interaction.guild.name,
+                    "channel_id": channel_id,
+            }
+
+            # Call json_writer
+            self.json_writer(JSON_PATH, data)
             await interaction.response.send_message(f"You selected <#{channel}>")
 
 
