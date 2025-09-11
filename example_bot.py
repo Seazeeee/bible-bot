@@ -4,6 +4,7 @@ from discord.ext import commands
 from cogs.random import randomVerse
 from cogs.specificVerse import specificVerse
 from cogs.specificChapter import specificChapter
+from cogs.versus import versus
 from cogs.env_vars import API_KEY
 from typing import Optional
 
@@ -84,10 +85,12 @@ def Main():
         interaction: discord.Interaction,
         book: str,
         chapter: int,
+        start_verse: int,
+        end_verse: int,
         translation: Optional[str],
     ):
         await interaction.response.send_message(
-            ":pray: " + (book, chapter, translation).pullVerse()
+            ":pray: " + versus(book, chapter, start_verse, end_verse, translation).pullVerses()
         )
 
     # Attempt at error handling, NOT CURRENTLY WORKING!!

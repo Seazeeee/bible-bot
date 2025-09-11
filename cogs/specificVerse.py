@@ -46,10 +46,7 @@ class specificVerse:
         else:
             self.translation = translation
 
-    def pullVerse(self):
-
-        # Has to have a capital name "Genesis"
-        # Has to match spaces
+    def pullVerse(self):  
 
         library = {
             1: "Genesis",
@@ -137,33 +134,21 @@ class specificVerse:
 
         bookId = exact_match
         # https://bolls.life/get-verse/<slug:translation>/<int:book>/<int:chapter>/<int:verse>/
-
-        # url = (
-        #     "https://bolls.life/get-text/"
-        #     + str(self.translation)
-        #     + "/"
-        #     + str(bookId)
-        #     + "/"
-        #     + str(self.chapter)
-        #     + "/"
-        #     # + str(self.verse)
-        #     # + "/"
-        # )
-
-        # https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/${version}/books/${book}/chapters/${chapter}/verses/${verse}.json
-        url = (
-            "https://cdn.jsdelivr.net/gh/wldeh/bible-api/bibles/"
-            + f"en-{self.translation.lower()}"
-            + f"/books/{bookId.lower()}"
-            + f"/chapters/{self.chapter}.json"
-            # + f"/verses/{self.verse}.json"
-        )
-
-        print(url)
-
-        verse_url = (
+        message_url = (
             "https://bolls.life/"
-            + str(self.translation)
+            + str(self.translation).upper()
+            + "/"
+            + str(bookId)
+            + "/"
+            + str(self.chapter)
+            + "/"
+            + str(self.verse)
+            + "/"
+        )
+ 
+        verse_url = (
+            "https://bolls.life/get-verse/"
+            + str(self.translation).upper()
             + "/"
             + str(bookId)
             + "/"
@@ -173,22 +158,10 @@ class specificVerse:
             + "/"
         )
 
-        req = requests.get(url, timeout=60).text
-
+        req = requests.get(verse_url, timeout=60).text
+        
         # turn text into dictionary
-
         reqDic = json.loads(req)
+        bookText = reqDic["text"]
 
-        get_chapter = [chapter for chapter in reqDic["data"]]
-
-        # print(get_verses)
-
-        get_verses = [verses for verses in get_chapter]
-
-        verse = [verse for verse in get_verses]
-
-        # Grab required index's
-
-        bookText = verse[self.verse]["text"]
-
-        return f"{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n {verse_url}"
+        return f"{self.book} {self.chapter}:{self.verse} \n\n{bookText} \n {message_url}"
