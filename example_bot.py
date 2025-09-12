@@ -5,6 +5,7 @@ from cogs.random import randomVerse
 from cogs.specificVerse import specificVerse
 from cogs.specificChapter import specificChapter
 from cogs.versus import versus
+from cogs.question import question
 from cogs.env_vars import API_KEY
 from typing import Optional
 
@@ -94,6 +95,19 @@ def Main():
         await interaction.followup.send(
             ":pray: " + versus(book, chapter, start_verse, end_verse, translation).pullVerses()
         )
+
+    @bot.tree.command(name="question", description="Ask for a verse on a topic.")
+    @commands.has_permissions(administrator=True)
+    async def slash_command(
+        interaction: discord.Interaction,
+        query: str,
+    ):
+        await interaction.response.defer()
+        await interaction.followup.send(
+            question(query).ask_question()
+        )
+
+
 
     # Attempt at error handling, NOT CURRENTLY WORKING!!
     @bot.event

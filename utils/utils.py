@@ -1,5 +1,34 @@
 import json
 import os
+from openai import OpenAI
+from cogs.env_vars import OPENAI_KEY
+
+def openai_call(input: str):
+    client = OpenAI(api_key = OPENAI_KEY)
+
+    response = client.responses.create(
+    model="gpt-4.1-nano",
+    input=input,
+    text={
+        "format": {
+            "type": "json_schema",
+            "name": "bible_verse",
+            "schema": {
+                "type": "object",
+                "properties": {
+                    "Book": { "type": "string" },
+                    "Chapter": { "type": "integer" },
+                    "Verse": { "type": "integer" }
+                },
+                "required": ["Book", "Chapter", "Verse"],
+                "additionalProperties": False
+                }
+            }
+        }
+    )
+
+    return response.output_text
+
 
 def json_writer(path: str, data: dict):
     # Validate input
