@@ -1,0 +1,7 @@
+discord.py
+pytz
+bleach
+beautifulsoup4
+requests
+openai
+python-dotenv
